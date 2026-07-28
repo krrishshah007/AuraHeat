@@ -32,27 +32,18 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-app.get('/', (req, res) => {
-  res.send(`
-    <html>
-      <head><title>AurHeat API Server</title></head>
-      <body style="font-family: sans-serif; background: #0f172a; color: #f8fafc; padding: 40px; line-height: 1.6;">
-        <h1 style="color: #38bdf8;">🔥 AurHeat Climate Intelligence Backend API</h1>
-        <p>Production-ready Express & MongoDB server for Heatwave Monitoring, AI Risk Prediction, and Early Warning Advisories.</p>
-        <h3>Available Endpoints:</h3>
-        <ul>
-          <li><code>GET /api/weather</code> - Live weather & climate metrics across Indian states/cities</li>
-          <li><code>POST /api/prediction</code> - AI Heatwave Risk Score calculation & recommendations engine</li>
-          <li><code>GET /api/alerts</code> - Active heatwave emergency alerts & advisory notices</li>
-          <li><code>POST /api/auth/login</code> & <code>POST /api/auth/signup</code> - JWT Authentication</li>
-          <li><code>GET /api/health</code> - System status & health monitoring</li>
-        </ul>
-      </body>
-    </html>
-  `);
+app.get('/api', (req, res) => {
+  res.json({
+    message: '🔥 AurHeat Climate Intelligence Backend API operational on Vercel',
+    version: '1.0.0'
+  });
 });
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`🚀 AurHeat Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
-});
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`🚀 AurHeat Server running on port ${PORT} [${process.env.NODE_ENV || 'development'}]`);
+  });
+}
+
+module.exports = app;
